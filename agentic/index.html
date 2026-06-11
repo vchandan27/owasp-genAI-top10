@@ -148,7 +148,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line2);border-
   font-weight:700;letter-spacing:.04em;padding:12px 14px;border-radius:10px;cursor:pointer;
   transition:transform .12s,box-shadow .12s}
 .sim-launch-btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(0,0,0,.4),0 0 16px color-mix(in srgb,var(--rc,#22d3ee) 30%,transparent)}
-#sim{position:fixed;inset:0;z-index:60;background:rgba(3,6,12,.93);backdrop-filter:blur(5px);
+#sim{position:fixed;inset:0;z-index:60;background:rgba(3,6,12,.94);backdrop-filter:blur(6px);
   display:none;flex-direction:column;opacity:0;transition:opacity .2s}
 #sim.on{display:flex;opacity:1}
 .sim-bar{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line)}
@@ -157,13 +157,14 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line2);border-
 .sim-bar .sub{font-family:var(--mono);font-size:11.5px;color:var(--faint)}
 .sim-x{background:var(--panel);border:1px solid var(--line2);color:var(--dim);border-radius:8px;padding:6px 13px;cursor:pointer;font-family:var(--mono);font-size:14px}
 .sim-x:hover{color:var(--txt);border-color:var(--accent)}
-.sim-stage-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:8px 18px;min-height:0}
+.sim-stage-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 18px 0;min-height:0}
 .sim-canvas{width:100%;max-width:1000px;margin:0 auto}
-#sim-svg{width:100%;height:auto;max-height:56vh}
-.sn rect{fill:#0e1828;stroke:var(--line2);stroke-width:1.4;transition:stroke .25s,fill .25s,opacity .25s;opacity:.6}
+#sim-svg{width:100%;height:auto;max-height:50vh;display:block}
+/* nodes */
+.sn rect{fill:#0e1828;stroke:var(--line2);stroke-width:1.4;transition:stroke .25s,fill .25s,opacity .25s,filter .25s;opacity:.5}
 .sn .sn-t{font-family:var(--sans);font-size:13.5px;font-weight:700;fill:var(--dim);text-anchor:middle;transition:fill .25s}
 .sn .sn-s{font-family:var(--mono);font-size:9.5px;fill:var(--faint);text-anchor:middle}
-.sn.active rect{opacity:1;stroke:var(--rc,#22d3ee);stroke-width:2.4;filter:drop-shadow(0 0 9px color-mix(in srgb,var(--rc,#22d3ee) 60%,transparent))}
+.sn.active rect{opacity:1;stroke:var(--rc,#22d3ee);stroke-width:2.4;filter:drop-shadow(0 0 10px color-mix(in srgb,var(--rc,#22d3ee) 65%,transparent))}
 .sn.active .sn-t{fill:var(--txt)}
 .sn.s-target rect{opacity:1;stroke:#ffb020;fill:#27210e}
 .sn.s-target .sn-t{fill:#ffd479}
@@ -171,30 +172,42 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line2);border-
 .sn.s-compromised .sn-t{fill:#ff8a8a}
 .sn.s-exfil rect{opacity:1;stroke:#b388ff;fill:#1d152e}
 .sn.s-exfil .sn-t{fill:#cbb2ff}
-.sn.s-secure rect{opacity:1;stroke:#3ddc84;fill:#0e2419;stroke-width:2.4;filter:drop-shadow(0 0 9px rgba(61,220,132,.5))}
+.sn.s-secure rect{opacity:1;stroke:#3ddc84;fill:#0e2419;stroke-width:2.6;filter:drop-shadow(0 0 11px rgba(61,220,132,.55))}
 .sn.s-secure .sn-t{fill:#7df0ad}
-.sim-edge{stroke:var(--rc,#22d3ee);stroke-width:2.4;stroke-dasharray:8 7;opacity:.8;animation:simdash .7s linear infinite}
-@keyframes simdash{to{stroke-dashoffset:-30}}
-#sim-payload .pl{fill:var(--pc,#ff5d6c)}
-#sim-payload .pl-ring{fill:none;stroke:var(--pc,#ff5d6c);stroke-width:2;opacity:.6;animation:simpulse 1s ease-out infinite}
-@keyframes simpulse{0%{r:7;opacity:.7}100%{r:18;opacity:0}}
-@media (prefers-reduced-motion:reduce){.sim-edge,#sim-payload .pl-ring{animation:none}}
-.sim-cap{max-width:1000px;margin:0 auto;width:100%;padding:4px 22px 0}
-.sim-cap h4{font-size:17px;margin:0 0 6px}
+/* baseline (legitimate) connections */
+.sim-base{stroke:#3a4d70;stroke-width:1.5;stroke-dasharray:2.5 6;opacity:.6;fill:none}
+/* attack path */
+.sim-atk{stroke:rgba(255,77,77,.40);stroke-width:2.4;fill:none}
+.sim-atk.cur{stroke:#ff3b3b;stroke-width:3.4;stroke-dasharray:9 7;filter:drop-shadow(0 0 6px rgba(255,60,60,.75));animation:simdash .6s linear infinite}
+@keyframes simdash{to{stroke-dashoffset:-32}}
+#sim-payload .pl{fill:#ff5d6c;filter:drop-shadow(0 0 7px rgba(255,93,108,.95))}
+#sim-payload .pl-ring{fill:none;stroke:#ff5d6c;stroke-width:2;opacity:.6;animation:simpulse 1s ease-out infinite}
+@keyframes simpulse{0%{r:6;opacity:.75}100%{r:17;opacity:0}}
+@media (prefers-reduced-motion:reduce){.sim-atk.cur,#sim-payload .pl-ring{animation:none}}
+/* legend */
+.sim-legend{display:flex;flex-wrap:wrap;gap:5px 16px;justify-content:center;max-width:1000px;margin:8px auto 0;width:100%;padding:0 22px;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.sim-legend span{display:inline-flex;align-items:center;gap:6px}
+.sim-legend svg{width:26px;height:8px;display:inline-block}
+.lg-base{stroke:#3a4d70;stroke-width:1.6;stroke-dasharray:2.5 4}
+.lg-atk{stroke:#ff3b3b;stroke-width:3}
+.sim-legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.lg-dot.t{background:#ffb020}.lg-dot.c{background:#ff4d4d}.lg-dot.x{background:#b388ff}.lg-dot.s{background:#3ddc84}
+/* caption */
+.sim-cap{max-width:1000px;margin:0 auto;width:100%;padding:8px 22px 0}
+.sim-cap h4{font-size:17px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
 .sim-cap p{font-size:14.5px;color:var(--dim);line-height:1.6;min-height:46px}
-.sim-ctrls{display:flex;align-items:center;gap:10px;max-width:1000px;margin:0 auto;width:100%;padding:14px 22px 22px;flex-wrap:wrap}
+.sim-ctrls{display:flex;align-items:center;gap:10px;max-width:1000px;margin:0 auto;width:100%;padding:12px 22px 22px;flex-wrap:wrap}
 .sim-ctrls button{background:var(--panel);border:1px solid var(--line2);color:var(--txt);border-radius:9px;padding:9px 14px;cursor:pointer;font-family:var(--mono);font-size:13px}
 .sim-ctrls button:hover{border-color:var(--rc,#22d3ee)}
 .sim-ctrls .play{background:var(--rc,#22d3ee);color:#06090f;border-color:var(--rc,#22d3ee);font-weight:700;min-width:104px}
 .sim-ctrls .spd{margin-left:auto}
-.sim-ctrls .cnt{font-family:var(--mono);font-size:12.5px;color:var(--faint)}
 .sim-prog{height:4px;background:var(--line);border-radius:3px;overflow:hidden;flex-basis:100%;margin-top:4px}
 .sim-prog>div{height:100%;width:0;background:var(--rc,#22d3ee);transition:width .3s}
 .sim-dots{display:flex;gap:6px}
 .sim-dots span{width:9px;height:9px;border-radius:50%;background:var(--line2);cursor:pointer;transition:background .2s,transform .2s}
 .sim-dots span.on{background:var(--rc,#22d3ee);transform:scale(1.25)}
 .sim-dots span.done{background:color-mix(in srgb,var(--rc,#22d3ee) 55%,var(--line2))}
-@media(max-width:640px){.sim-bar h3{font-size:14px}.sim-cap p{min-height:64px}.sim-ctrls .spd{margin-left:0}}
+@media(max-width:640px){.sim-bar h3{font-size:14px}.sim-cap p{min-height:64px}.sim-ctrls .spd{margin-left:0}#sim-svg{max-height:42vh}}
 
 </style>
 </head>
@@ -530,8 +543,16 @@ if(byId[h]) openPanel(h, false);
       <svg id="sim-svg" viewBox="0 0 980 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
     </div>
   </div>
+  <div class="sim-legend">
+    <span><svg viewBox="0 0 26 8"><line x1="0" y1="4" x2="26" y2="4" class="lg-base"/></svg> Normal data flow</span>
+    <span><svg viewBox="0 0 26 8"><line x1="0" y1="4" x2="26" y2="4" class="lg-atk"/></svg> Attack path</span>
+    <span><i class="lg-dot t"></i> Targeted</span>
+    <span><i class="lg-dot c"></i> Compromised</span>
+    <span><i class="lg-dot x"></i> Exfiltration</span>
+    <span><i class="lg-dot s"></i> Mitigation</span>
+  </div>
   <div class="sim-cap">
-    <h4><span id="sim-stage" class="sc">STEP</span>&nbsp; <span id="sim-title"></span></h4>
+    <h4><span id="sim-stage" class="sc">STEP</span><span id="sim-title"></span></h4>
     <p id="sim-text"></p>
   </div>
   <div class="sim-ctrls">
@@ -550,28 +571,41 @@ if(byId[h]) openPanel(h, false);
 (function(){
   const NODES = [{"id": "attacker", "x": 150, "y": 70, "w": 150, "label": "Attacker"}, {"id": "user", "x": 150, "y": 290, "w": 150, "label": "User"}, {"id": "supply", "x": 155, "y": 492, "w": 175, "label": "Supply Chain", "sub": "models · MCP · packages"}, {"id": "agent", "x": 450, "y": 235, "w": 190, "label": "Agent", "sub": "planner · orchestration"}, {"id": "memory", "x": 450, "y": 478, "w": 180, "label": "Memory / RAG", "sub": "stored context · vectors"}, {"id": "tools", "x": 690, "y": 110, "w": 155, "label": "Tools / APIs"}, {"id": "code", "x": 690, "y": 300, "w": 165, "label": "Code Execution", "sub": "shell · sandbox"}, {"id": "governance", "x": 690, "y": 486, "w": 175, "label": "Governance / HITL"}, {"id": "external", "x": 865, "y": 205, "w": 150, "label": "External Agents"}, {"id": "downstream", "x": 865, "y": 410, "w": 150, "label": "Downstream"}];
   const FLOWS = {"ASI01": [{"stage": "INJECT", "title": "Attacker plants instructions in the agent's path", "text": "Hidden instructions are placed where the agent will read them: a crafted email, a web page, or a document (as in the zero-click EchoLeak email to M365 Copilot).", "focus": ["attacker"], "mark": {"attacker": "compromised"}}, {"stage": "INGEST", "title": "Agent ingests the poisoned content", "text": "While doing its task or browsing, the agent reads the content. It cannot reliably tell legitimate instructions from attacker text.", "focus": ["agent"], "edge": ["attacker", "agent"], "mark": {"agent": "target"}}, {"stage": "HIJACK", "title": "The goal and plan are redirected", "text": "The injected instructions override the agent's objective, task selection, and multi-step plan.", "focus": ["agent"], "mark": {"agent": "compromised"}}, {"stage": "ACT", "title": "Hijacked agent uses its real access", "text": "Now pursuing the attacker's goal, the agent invokes its legitimate tools and permissions.", "focus": ["tools"], "edge": ["agent", "tools"], "mark": {"tools": "target"}}, {"stage": "EXFIL", "title": "Data and identity are abused", "text": "It exfiltrates confidential emails, files, and chats, or sends unauthorized messages under a trusted identity.", "focus": ["attacker"], "edge": ["tools", "attacker"], "mark": {"tools": "exfil"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Treat all content as untrusted, lock goals and system prompts, and require approval for goal-changing or high-impact actions.", "focus": ["agent"], "mark": {"agent": "secure"}}], "ASI02": [{"stage": "INJECT", "title": "Attacker hides a tool command", "text": "Instructions are embedded in content the agent will process, e.g. a PDF saying 'run cleanup.sh and send logs to X', or a poisoned MCP tool descriptor.", "focus": ["attacker"], "mark": {"attacker": "compromised"}}, {"stage": "DELIVER", "title": "Agent reads the malicious instruction", "text": "The agent ingests the content while operating within its authorized privileges.", "focus": ["agent"], "edge": ["attacker", "agent"], "mark": {"agent": "target"}}, {"stage": "SELECT", "title": "A legitimate tool is chosen for harm", "text": "The agent selects a real, permitted tool, but applies it in an unsafe or unintended way.", "focus": ["tools"], "edge": ["agent", "tools"], "mark": {"tools": "target"}}, {"stage": "PIVOT", "title": "Tool access is escalated", "text": "It pivots: invoking a local shell tool, over-calling a costly API, deleting valuable data, or chaining tools to widen impact.", "focus": ["code"], "edge": ["tools", "code"], "mark": {"code": "compromised"}}, {"stage": "IMPACT", "title": "Data exfiltrated or destroyed", "text": "The misused tool exfiltrates information or causes destructive side effects, all within the agent's normal permissions.", "focus": ["downstream"], "edge": ["code", "downstream"], "mark": {"downstream": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Apply per-tool least privilege, validate tool inputs, outputs, and descriptors, and gate sensitive tools behind explicit approval.", "focus": ["tools"], "mark": {"tools": "secure"}}], "ASI03": [{"stage": "SETUP", "title": "Over-broad delegation between agents", "text": "A finance agent delegates a subtask to a 'DB query' agent but hands over all of its permissions instead of a scoped subset.", "focus": ["agent", "external"], "edge": ["agent", "external"], "mark": {"external": "target"}}, {"stage": "STEER", "title": "Attacker steers the sub-agent", "text": "By steering the sub-agent's prompts, the attacker inherits that broad delegated access.", "focus": ["external"], "edge": ["attacker", "external"], "mark": {"attacker": "compromised", "external": "compromised"}}, {"stage": "ESCALATE", "title": "Cached credentials are reused", "text": "Inherited tokens or credentials cached from an earlier task (e.g. SSH keys from a patch job) are reused beyond their intended scope.", "focus": ["external"], "mark": {"external": "compromised"}}, {"stage": "EXFIL", "title": "Unauthorized access achieved", "text": "The attacker exfiltrates HR and legal data, or creates an unauthorized admin account through inherited privilege.", "focus": ["downstream"], "edge": ["external", "downstream"], "mark": {"downstream": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Issue task-scoped, time-bound tokens per agent, never pass full permissions on delegation, and give every agent its own governed identity.", "focus": ["agent"], "mark": {"agent": "secure"}}], "ASI04": [{"stage": "TAMPER", "title": "Attacker poisons an upstream artifact", "text": "A malicious prompt is slipped into an IDE extension repo, or a malicious MCP tool descriptor is published (e.g. the Amazon Q and GitHub MCP cases).", "focus": ["supply"], "mark": {"supply": "compromised"}}, {"stage": "DISTRIBUTE", "title": "Poisoned tool reaches the agent", "text": "It ships in an extension update to thousands, or is discovered dynamically via MCP at runtime.", "focus": ["tools"], "edge": ["supply", "tools"], "mark": {"tools": "target"}}, {"stage": "INVOKE", "title": "Agent trusts and invokes it", "text": "The agent connects to the tool, trusting its advertised capabilities, schema, and metadata.", "focus": ["agent"], "edge": ["agent", "tools"], "mark": {"tools": "compromised"}}, {"stage": "IMPACT", "title": "Hidden commands exfiltrate data", "text": "Commands concealed in the tool metadata run on invocation, exfiltrating private repo data without the user's knowledge.", "focus": ["external"], "edge": ["tools", "external"], "mark": {"external": "exfil"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Sign and attest tool definitions and manifests, require SBOM/AIBOM, and pin and verify MCP servers and versions.", "focus": ["supply"], "mark": {"supply": "secure"}}], "ASI05": [{"stage": "INJECT", "title": "Shell commands disguised as a task", "text": "The attacker submits a prompt with embedded shell commands dressed up as legitimate instructions, or the agent self-generates unreviewed commands during 'vibe coding'.", "focus": ["attacker"], "edge": ["attacker", "agent"], "mark": {"attacker": "compromised"}}, {"stage": "GENERATE", "title": "Agent generates and runs code", "text": "The agent produces code and executes it in its workspace, including unreviewed install or shell commands during self-repair.", "focus": ["code"], "edge": ["agent", "code"], "mark": {"agent": "target", "code": "target"}}, {"stage": "EXECUTE", "title": "Embedded commands fire", "text": "The hidden commands run with the agent's privileges inside the execution environment.", "focus": ["code"], "mark": {"code": "compromised"}}, {"stage": "IMPACT", "title": "RCE, data loss, or sandbox escape", "text": "Result: deleted or overwritten production data (as in the Replit runaway case), sandbox escape, or full remote code execution on the host.", "focus": ["downstream"], "edge": ["code", "downstream"], "mark": {"downstream": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Never run as root, sandbox execution with no secrets or network by default, and validate and human-review generated code.", "focus": ["code"], "mark": {"code": "secure"}}], "ASI06": [{"stage": "SEED", "title": "Attacker repeats a false claim", "text": "The attacker keeps reinforcing a fabricated fact, such as a fake flight price, across the conversation.", "focus": ["attacker"], "edge": ["attacker", "agent"], "mark": {"attacker": "compromised"}}, {"stage": "STORE", "title": "Lie is written to memory as truth", "text": "The agent persists the repeated claim into long-term memory, treating it as established fact.", "focus": ["memory"], "edge": ["agent", "memory"], "mark": {"memory": "compromised"}}, {"stage": "RECALL", "title": "Poisoned context is retrieved later", "text": "On subsequent tasks the agent retrieves the poisoned memory and reasons from it without question.", "focus": ["agent"], "edge": ["memory", "agent"], "mark": {"agent": "target"}}, {"stage": "IMPACT", "title": "Corrupted decisions and creeping access", "text": "It approves bookings at the fake price and skips payment checks; split-session attacks similarly drip-feed escalating permissions up to admin.", "focus": ["tools"], "edge": ["agent", "tools"], "mark": {"tools": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Use least-privilege, encrypted memory with source attribution, validate writes, detect anomalous updates, and scope or expire context.", "focus": ["memory"], "mark": {"memory": "secure"}}], "ASI07": [{"stage": "INTERCEPT", "title": "Attacker sits between agents", "text": "Over HTTP or other unauthenticated channels, a man-in-the-middle positions itself on the inter-agent link.", "focus": ["attacker"], "mark": {"attacker": "compromised"}}, {"stage": "INJECT", "title": "Messages are forged in transit", "text": "The attacker injects hidden instructions or tampers with messages; the agents still appear to behave normally.", "focus": ["external"], "edge": ["attacker", "external"], "mark": {"external": "target"}}, {"stage": "PROPAGATE", "title": "Trust signals are skewed", "text": "Forged reputation or approval messages change which agents are trusted for decisions across the network.", "focus": ["agent"], "edge": ["external", "agent"], "mark": {"agent": "target"}}, {"stage": "IMPACT", "title": "Collective decision is corrupted", "text": "The manipulated agents produce biased or malicious results together, for example skewing an agentic trading network.", "focus": ["agent"], "mark": {"agent": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Encrypt agent channels end-to-end with per-agent mutual authentication, certificate pinning, message signing, and anti-replay nonces.", "focus": ["external"], "mark": {"external": "secure"}}], "ASI08": [{"stage": "SEED", "title": "One agent is poisoned", "text": "A single fault enters: prompt injection corrupts a Market Analysis agent, inflating its risk limits.", "focus": ["agent"], "edge": ["attacker", "agent"], "mark": {"attacker": "compromised", "agent": "compromised"}}, {"stage": "PROPAGATE", "title": "Fault flows to trusting agents", "text": "Downstream Position and Execution agents trust the poisoned analysis and act on it automatically.", "focus": ["external"], "edge": ["agent", "external"], "mark": {"external": "target"}}, {"stage": "AMPLIFY", "title": "Autonomy compounds the harm", "text": "Because agents plan, persist, and delegate on their own, the single fault compounds into system-wide damage at machine speed.", "focus": ["downstream"], "edge": ["external", "downstream"], "mark": {"downstream": "compromised"}}, {"stage": "BLIND-SPOT", "title": "Oversight stays blind", "text": "Activity looks 'within parameters', so compliance and human monitors miss it until the damage is done.", "focus": ["governance"], "mark": {"governance": "target"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Apply zero-trust between agents, add circuit breakers and rate limits, isolate blast radius, and put human checkpoints on compounding actions.", "focus": ["governance"], "mark": {"governance": "secure"}}], "ASI09": [{"stage": "COMPROMISE", "title": "A trusted assistant is subverted", "text": "The attacker compromises or prompt-injects an assistant the user already relies on, such as a coding or IT-support agent.", "focus": ["agent"], "edge": ["attacker", "agent"], "mark": {"attacker": "compromised", "agent": "compromised"}}, {"stage": "BUILD-TRUST", "title": "Agent leverages human trust", "text": "Using fluent language, real ticket references, and perceived expertise (anthropomorphism), it gets the user to lower their guard.", "focus": ["user"], "edge": ["agent", "user"], "mark": {"user": "target"}}, {"stage": "MANIPULATE", "title": "A helpful-looking nudge", "text": "It suggests a slick one-line fix to paste, or asks the new hire to confirm their credentials to proceed.", "focus": ["user"]}, {"stage": "IMPACT", "title": "User completes the attack", "text": "The user runs the malicious command or hands over credentials; code is exfiltrated, a backdoor is installed, or secrets are captured.", "focus": ["attacker"], "edge": ["user", "attacker"], "mark": {"user": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Require explicit confirmation for sensitive actions, clearly label the agent's identity and limits, and keep a human in the loop for risky steps.", "focus": ["user"], "mark": {"user": "secure"}}], "ASI10": [{"stage": "CORRUPT", "title": "Agent internalizes a harmful behavior", "text": "After encountering a poisoned web instruction, the agent 'learns' the behavior and drifts out of its authorized scope.", "focus": ["agent"], "edge": ["attacker", "agent"], "mark": {"attacker": "compromised", "agent": "compromised"}}, {"stage": "PERSIST", "title": "It acts on its own", "text": "With no active attacker needed, the rogue agent keeps scanning and transmitting sensitive files to external servers independently.", "focus": ["agent"], "edge": ["agent", "downstream"], "mark": {"downstream": "target"}}, {"stage": "INFILTRATE", "title": "A fake insider agent joins", "text": "Alternatively the attacker injects a rogue 'review' or 'approval' agent that impersonates a trusted internal reviewer.", "focus": ["external"], "edge": ["attacker", "external"], "mark": {"external": "compromised"}}, {"stage": "IMPACT", "title": "Trusted workflow is abused", "text": "A high-value agent such as payment processing trusts the forged internal request and releases funds or data.", "focus": ["downstream"], "edge": ["external", "downstream"], "mark": {"downstream": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Keep immutable, signed audit logs, require behavioral attestation and identity for every agent, and detect out-of-scope or unregistered agents.", "focus": ["governance"], "mark": {"governance": "secure"}}]};
+  const BASELINE = [["user", "agent"], ["agent", "tools"], ["agent", "code"], ["agent", "memory"], ["agent", "external"], ["agent", "governance"], ["tools", "downstream"], ["external", "downstream"], ["code", "downstream"], ["supply", "tools"]];
   const NS='http://www.w3.org/2000/svg';
-  const STAGE_C={INJECT:'#ff5d6c',DELIVER:'#ff9046',POISON:'#ff5d6c',SEED:'#ff5d6c',TAMPER:'#ff5d6c',
-    PROBE:'#ff9046',SETUP:'#ff9046',EXTRACT:'#ff9046',OBSERVE:'#ff9046',FLOOD:'#ff9046',CORRUPT:'#ff5d6c',
-    COMPROMISE:'#ff5d6c',INTERCEPT:'#ff5d6c',INGEST:'#ffc53d',DELIVER2:'#ffc53d',PROCESS:'#ffc53d',
-    GENERATE:'#ffc53d',TRIGGER:'#ffc53d',RECALL:'#ffc53d','BUILD-TRUST':'#ffc53d',STORE:'#ff9046',
-    SELECT:'#ffc53d',EMBED:'#ff9046',PLANT:'#ff9046',SHIP:'#ff9046',TRAIN:'#ff9046',DISTRIBUTE:'#ff9046',
-    DEPLOY:'#ffc53d',STEER:'#ff7ad9',MANIPULATE:'#ff7ad9',PIVOT:'#ff7ad9',ESCALATE:'#ff7ad9',
-    PROPAGATE:'#ff7ad9',AMPLIFY:'#ff7ad9',HIJACK:'#ff4d4d',ABUSE:'#ff7ad9',INVOKE:'#ff7ad9',
-    ACT:'#ff4d4d',EXECUTE:'#ff4d4d',PERSIST:'#ff7ad9',INFILTRATE:'#ff7ad9','BLIND-SPOT':'#9aa7c2',
-    IMPACT:'#ff4d4d',EXFIL:'#b388ff',SUGGEST:'#ffc53d',DEFENSE:'#3ddc84'};
-  function sc(s){return STAGE_C[s]||'#22d3ee';}
-  let svg,layer,payload,flow=[],idx=0,timer=null,playing=false,speed=1,anim=null,centers={},curId=null;
+  let svg,gBase,gAtk,nodeG,payload,flow=[],idx=0,timer=null,playing=false,speed=1,anim=null,centers={},curId=null;
   const DWELL=3600;
   const $=function(id){return document.getElementById(id);};
 
+  function edgePt(c,tx,ty,pad){            // point on box c's border heading toward (tx,ty)
+    const vx=tx-c.x, vy=ty-c.y;
+    const sx=vx?(c.hw+pad)/Math.abs(vx):1e9, sy=vy?(c.hh+pad)/Math.abs(vy):1e9;
+    const s=Math.min(sx,sy);
+    return [c.x+vx*s, c.y+vy*s];
+  }
+  function mkLine(group,a,b,cls,endPad){
+    const A=centers[a],B=centers[b]; if(!A||!B) return null;
+    const p1=edgePt(A,B.x,B.y,2), p2=edgePt(B,A.x,A.y,endPad||2);
+    const ln=document.createElementNS(NS,'line');
+    ln.setAttribute('x1',p1[0]); ln.setAttribute('y1',p1[1]);
+    ln.setAttribute('x2',p2[0]); ln.setAttribute('y2',p2[1]);
+    ln.setAttribute('class',cls);
+    group.appendChild(ln);
+    return ln;
+  }
+
   function build(){
     svg=$('sim-svg'); svg.innerHTML=''; centers={};
-    layer=document.createElementNS(NS,'g'); svg.appendChild(layer);
-    const nl=document.createElementNS(NS,'g'); svg.appendChild(nl);
+    const defs=document.createElementNS(NS,'defs');
+    defs.innerHTML='<marker id="sim-arr-a" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ff3b3b"/></marker>';
+    svg.appendChild(defs);
+    NODES.forEach(function(n){ centers[n.id]={x:n.x,y:n.y,hw:(n.w||150)/2,hh:(n.h||58)/2}; });
+    gBase=document.createElementNS(NS,'g'); svg.appendChild(gBase);
+    gAtk=document.createElementNS(NS,'g'); svg.appendChild(gAtk);
+    nodeG=document.createElementNS(NS,'g'); svg.appendChild(nodeG);
+    BASELINE.forEach(function(e){ mkLine(gBase,e[0],e[1],'sim-base',2); });
     NODES.forEach(function(n){
       const w=n.w||150,h=n.h||58,x=n.x-w/2,y=n.y-h/2;
-      centers[n.id]={x:n.x,y:n.y};
       const g=document.createElementNS(NS,'g'); g.setAttribute('id','sn-'+n.id); g.setAttribute('class','sn');
       const r=document.createElementNS(NS,'rect'); r.setAttribute('x',x); r.setAttribute('y',y);
       r.setAttribute('width',w); r.setAttribute('height',h); r.setAttribute('rx',10); g.appendChild(r);
@@ -579,38 +613,41 @@ if(byId[h]) openPanel(h, false);
       t.setAttribute('class','sn-t'); t.textContent=n.label; g.appendChild(t);
       if(n.sub){ const s=document.createElementNS(NS,'text'); s.setAttribute('x',n.x); s.setAttribute('y',n.y+14);
         s.setAttribute('class','sn-s'); s.textContent=n.sub; g.appendChild(s); }
-      nl.appendChild(g);
+      nodeG.appendChild(g);
     });
     payload=document.createElementNS(NS,'g'); payload.setAttribute('id','sim-payload'); payload.style.opacity=0;
-    const ring=document.createElementNS(NS,'circle'); ring.setAttribute('r',9); ring.setAttribute('class','pl-ring'); payload.appendChild(ring);
-    const dot=document.createElementNS(NS,'circle'); dot.setAttribute('r',8); dot.setAttribute('class','pl'); payload.appendChild(dot);
+    const ring=document.createElementNS(NS,'circle'); ring.setAttribute('r',8); ring.setAttribute('class','pl-ring'); payload.appendChild(ring);
+    const dot=document.createElementNS(NS,'circle'); dot.setAttribute('r',7); dot.setAttribute('class','pl'); payload.appendChild(dot);
     svg.appendChild(payload);
   }
-  function clearTransient(){
-    layer.innerHTML='';
-    NODES.forEach(function(n){ $('sn-'+n.id).setAttribute('class','sn'); });
-  }
+
+  function resetNodes(){ NODES.forEach(function(n){ $('sn-'+n.id).setAttribute('class','sn'); }); }
   function applyMarks(i){
     const marks={};
     for(let k=0;k<=i;k++){ const m=flow[k].mark; if(m) for(const id in m) marks[id]=m[id]; }
     for(const id in marks){ const g=$('sn-'+id); if(g) g.classList.add('s-'+marks[id]); }
     (flow[i].focus||[]).forEach(function(id){ const g=$('sn-'+id); if(g) g.classList.add('active'); });
   }
-  function runPayload(a,b,color){
+  function drawTrail(i){
+    gAtk.innerHTML='';
+    for(let k=0;k<=i;k++){
+      const e=flow[k].edge; if(!e) continue;
+      const ln=mkLine(gAtk,e[0],e[1],(k===i?'sim-atk cur':'sim-atk'),9);
+      if(ln) ln.setAttribute('marker-end','url(#sim-arr-a)');
+    }
+  }
+  function movePayload(a,b){
     const A=centers[a],B=centers[b]; if(!A||!B){ payload.style.opacity=0; return; }
-    const ln=document.createElementNS(NS,'line');
-    ln.setAttribute('x1',A.x); ln.setAttribute('y1',A.y); ln.setAttribute('x2',B.x); ln.setAttribute('y2',B.y);
-    ln.setAttribute('class','sim-edge'); layer.appendChild(ln);
-    payload.style.setProperty('--pc',color);
+    const p2=edgePt(B,A.x,A.y,9);
     payload.style.opacity=1;
     payload.setAttribute('transform','translate('+A.x+','+A.y+')');
     if(anim){ anim.cancel(); anim=null; }
-    const dur=Math.max(650,Math.min(1500,2300/speed));
+    const dur=Math.max(650,Math.min(1600,2300/speed));
     try{
       anim=payload.animate(
-        [{transform:'translate('+A.x+'px,'+A.y+'px)'},{transform:'translate('+B.x+'px,'+B.y+'px)'}],
+        [{transform:'translate('+A.x+'px,'+A.y+'px)'},{transform:'translate('+p2[0]+'px,'+p2[1]+'px)'}],
         {duration:dur,easing:'ease-in-out',fill:'forwards'});
-    }catch(e){ payload.setAttribute('transform','translate('+B.x+','+B.y+')'); }
+    }catch(e){ payload.setAttribute('transform','translate('+p2[0]+','+p2[1]+')'); }
   }
   function renderDots(){
     const d=$('sim-dots'); d.innerHTML='';
@@ -623,11 +660,12 @@ if(byId[h]) openPanel(h, false);
     });
   }
   function render(i){
-    idx=i; clearTransient(); applyMarks(i);
+    idx=i; resetNodes(); applyMarks(i); drawTrail(i);
     const st=flow[i];
-    if(st.edge){ runPayload(st.edge[0],st.edge[1],sc(st.stage)); } else { payload.style.opacity=0; if(anim){anim.cancel();anim=null;} }
-    const chip=$('sim-stage'); chip.textContent=st.stage; chip.style.background=sc(st.stage);
-    chip.style.color=(st.stage==='DEFENSE')?'#04210f':'#06090f';
+    if(st.edge){ movePayload(st.edge[0],st.edge[1]); } else { payload.style.opacity=0; if(anim){anim.cancel();anim=null;} }
+    const chip=$('sim-stage'); chip.textContent=st.stage;
+    chip.style.background=(st.stage==='DEFENSE')?'#3ddc84':'#ff3b3b';
+    chip.style.color=(st.stage==='DEFENSE')?'#04210f':'#1a0405';
     $('sim-title').textContent=st.title;
     $('sim-text').textContent=st.text;
     $('sim-counter').textContent=(i+1)+' / '+flow.length;
@@ -645,7 +683,7 @@ if(byId[h]) openPanel(h, false);
     else if(idx>=flow.length-1){ b.textContent='⟲ Replay'; }
     else { b.textContent='▶ Play'; }
   }
-  function play(){ if(idx>=flow.length-1) idx=-1; playing=true; updatePlay(); render(idx+1<flow.length?idx+1:0); }
+   function play(){ if(idx>=flow.length-1) idx=-1; playing=true; updatePlay(); render(idx+1<flow.length?idx+1:0); }
   function pause(){ playing=false; clearTimeout(timer); updatePlay(); }
   window.simToggle=function(){ if(playing) pause(); else play(); };
   window.simStep=function(d){ pause(); let n=idx+d; if(n<0)n=0; if(n>flow.length-1)n=flow.length-1; render(n); };
