@@ -129,6 +129,64 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line2);border-
   .p-head{padding:16px 16px 0}.p-body{padding:16px}
   #search{min-width:100%}
 }
+
+/* ---------- attack simulator ---------- */
+.sim-launch-wrap{margin:14px 0 18px}
+.sim-launch-btn{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--rc,#22d3ee) 26%,#0b1120),#0b1120);
+  border:1px solid var(--rc,#22d3ee);color:var(--txt);font-family:var(--mono);font-size:13.5px;
+  font-weight:700;letter-spacing:.04em;padding:12px 14px;border-radius:10px;cursor:pointer;
+  transition:transform .12s,box-shadow .12s}
+.sim-launch-btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(0,0,0,.4),0 0 16px color-mix(in srgb,var(--rc,#22d3ee) 30%,transparent)}
+#sim{position:fixed;inset:0;z-index:60;background:rgba(3,6,12,.93);backdrop-filter:blur(5px);
+  display:none;flex-direction:column;opacity:0;transition:opacity .2s}
+#sim.on{display:flex;opacity:1}
+.sim-bar{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line)}
+.sim-bar .sc{font-family:var(--mono);font-weight:700;font-size:13px;color:#06090f;background:var(--rc,#22d3ee);padding:4px 10px;border-radius:7px}
+.sim-bar h3{font-size:16px;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sim-bar .sub{font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+.sim-x{background:var(--panel);border:1px solid var(--line2);color:var(--dim);border-radius:8px;padding:6px 13px;cursor:pointer;font-family:var(--mono);font-size:14px}
+.sim-x:hover{color:var(--txt);border-color:var(--accent)}
+.sim-stage-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:8px 18px;min-height:0}
+.sim-canvas{width:100%;max-width:1000px;margin:0 auto}
+#sim-svg{width:100%;height:auto;max-height:56vh}
+.sn rect{fill:#0e1828;stroke:var(--line2);stroke-width:1.4;transition:stroke .25s,fill .25s,opacity .25s;opacity:.6}
+.sn .sn-t{font-family:var(--sans);font-size:13.5px;font-weight:700;fill:var(--dim);text-anchor:middle;transition:fill .25s}
+.sn .sn-s{font-family:var(--mono);font-size:9.5px;fill:var(--faint);text-anchor:middle}
+.sn.active rect{opacity:1;stroke:var(--rc,#22d3ee);stroke-width:2.4;filter:drop-shadow(0 0 9px color-mix(in srgb,var(--rc,#22d3ee) 60%,transparent))}
+.sn.active .sn-t{fill:var(--txt)}
+.sn.s-target rect{opacity:1;stroke:#ffb020;fill:#27210e}
+.sn.s-target .sn-t{fill:#ffd479}
+.sn.s-compromised rect{opacity:1;stroke:#ff4d4d;fill:#2a1015}
+.sn.s-compromised .sn-t{fill:#ff8a8a}
+.sn.s-exfil rect{opacity:1;stroke:#b388ff;fill:#1d152e}
+.sn.s-exfil .sn-t{fill:#cbb2ff}
+.sn.s-secure rect{opacity:1;stroke:#3ddc84;fill:#0e2419;stroke-width:2.4;filter:drop-shadow(0 0 9px rgba(61,220,132,.5))}
+.sn.s-secure .sn-t{fill:#7df0ad}
+.sim-edge{stroke:var(--rc,#22d3ee);stroke-width:2.4;stroke-dasharray:8 7;opacity:.8;animation:simdash .7s linear infinite}
+@keyframes simdash{to{stroke-dashoffset:-30}}
+#sim-payload .pl{fill:var(--pc,#ff5d6c)}
+#sim-payload .pl-ring{fill:none;stroke:var(--pc,#ff5d6c);stroke-width:2;opacity:.6;animation:simpulse 1s ease-out infinite}
+@keyframes simpulse{0%{r:7;opacity:.7}100%{r:18;opacity:0}}
+@media (prefers-reduced-motion:reduce){.sim-edge,#sim-payload .pl-ring{animation:none}}
+.sim-cap{max-width:1000px;margin:0 auto;width:100%;padding:4px 22px 0}
+.sim-cap h4{font-size:17px;margin:0 0 6px}
+.sim-cap p{font-size:14.5px;color:var(--dim);line-height:1.6;min-height:46px}
+.sim-ctrls{display:flex;align-items:center;gap:10px;max-width:1000px;margin:0 auto;width:100%;padding:14px 22px 22px;flex-wrap:wrap}
+.sim-ctrls button{background:var(--panel);border:1px solid var(--line2);color:var(--txt);border-radius:9px;padding:9px 14px;cursor:pointer;font-family:var(--mono);font-size:13px}
+.sim-ctrls button:hover{border-color:var(--rc,#22d3ee)}
+.sim-ctrls .play{background:var(--rc,#22d3ee);color:#06090f;border-color:var(--rc,#22d3ee);font-weight:700;min-width:104px}
+.sim-ctrls .spd{margin-left:auto}
+.sim-ctrls .cnt{font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+.sim-prog{height:4px;background:var(--line);border-radius:3px;overflow:hidden;flex-basis:100%;margin-top:4px}
+.sim-prog>div{height:100%;width:0;background:var(--rc,#22d3ee);transition:width .3s}
+.sim-dots{display:flex;gap:6px}
+.sim-dots span{width:9px;height:9px;border-radius:50%;background:var(--line2);cursor:pointer;transition:background .2s,transform .2s}
+.sim-dots span.on{background:var(--rc,#22d3ee);transform:scale(1.25)}
+.sim-dots span.done{background:color-mix(in srgb,var(--rc,#22d3ee) 55%,var(--line2))}
+@media(max-width:640px){.sim-bar h3{font-size:14px}.sim-cap p{min-height:64px}.sim-ctrls .spd{margin-left:0}}
+
 </style>
 </head>
 <body>
@@ -248,6 +306,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line2);border-
     </div>
     <h2 id="p-title"></h2>
     <div class="tabs" id="tabs"></div>
+      <div class="sim-launch-wrap"><button id="sim-launch" class="sim-launch-btn">▶ Simulate the attack flow</button></div>
   </div>
   <div class="p-body" id="p-body"></div>
 </aside>
@@ -451,5 +510,164 @@ renderCards();
 const h = location.hash.replace('#','').toUpperCase();
 if(byId[h]) openPanel(h, false);
 </script>
+
+<div id="sim" role="dialog" aria-modal="true" aria-label="Attack flow simulation">
+  <div class="sim-bar">
+    <span class="sc" id="sim-code">--</span>
+    <h3 id="sim-name">Attack flow</h3>
+    <span class="sub" id="sim-counter">1 / 1</span>
+    <button class="sim-x" onclick="closeSim()" aria-label="Close simulation">✕</button>
+  </div>
+  <div class="sim-stage-wrap">
+    <div class="sim-canvas">
+      <svg id="sim-svg" viewBox="0 0 980 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+    </div>
+  </div>
+  <div class="sim-cap">
+    <h4><span id="sim-stage" class="sc">STEP</span>&nbsp; <span id="sim-title"></span></h4>
+    <p id="sim-text"></p>
+  </div>
+  <div class="sim-ctrls">
+    <button onclick="simRestart()" aria-label="Restart">⟲ Restart</button>
+    <button onclick="simStep(-1)" aria-label="Previous step">◀ Prev</button>
+    <button class="play" id="sim-play" onclick="simToggle()">▶ Play</button>
+    <button onclick="simStep(1)" aria-label="Next step">Next ▶</button>
+    <div class="sim-dots" id="sim-dots"></div>
+    <button class="spd" id="sim-speed" onclick="simSpeed()">1×</button>
+    <div class="sim-prog"><div id="sim-bar-fill"></div></div>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  const NODES = [{"id": "attacker", "x": 150, "y": 70, "w": 150, "label": "Attacker"}, {"id": "user", "x": 150, "y": 300, "w": 150, "label": "User"}, {"id": "supply", "x": 155, "y": 492, "w": 170, "label": "Supply Chain", "sub": "models · libraries · data"}, {"id": "app", "x": 440, "y": 250, "w": 190, "label": "Application", "sub": "system prompt · handling"}, {"id": "training", "x": 440, "y": 492, "w": 180, "label": "Training Data", "sub": "pre-train · fine-tune"}, {"id": "model", "x": 660, "y": 110, "w": 150, "label": "Model"}, {"id": "rag", "x": 660, "y": 360, "w": 170, "label": "RAG / Vector DB", "sub": "embeddings · retrieval"}, {"id": "tools", "x": 840, "y": 250, "w": 150, "label": "Tools / Plugins"}, {"id": "downstream", "x": 845, "y": 472, "w": 160, "label": "Downstream", "sub": "browser · DB · shell"}];
+  const FLOWS = {"LLM01": [{"stage": "INJECT", "title": "Attacker crafts malicious instructions", "text": "The attacker writes hidden instructions, either typed directly into the chat or concealed inside a web page or document the app will later read.", "focus": ["attacker"], "mark": {"attacker": "compromised"}}, {"stage": "DELIVER", "title": "Poisoned text enters the app", "text": "The crafted input reaches the application as ordinary input. Models cannot reliably separate instructions from data, so it gets parsed as a command.", "focus": ["app"], "edge": ["attacker", "app"], "mark": {"app": "target"}}, {"stage": "PROCESS", "title": "Model obeys the injection", "text": "The app passes the prompt to the model, which follows the injected instructions and ignores its original guidelines (a jailbreak of intended behavior).", "focus": ["model"], "edge": ["app", "model"], "mark": {"model": "compromised"}}, {"stage": "PIVOT", "title": "Hijacked model reaches for data and tools", "text": "Now under attacker control, the model queries private data stores or calls connected tools it should never use for this task.", "focus": ["tools"], "edge": ["model", "tools"], "mark": {"tools": "target"}}, {"stage": "EXFIL", "title": "Data leaves the trust boundary", "text": "Results are exfiltrated: an injected image URL leaks the private conversation, or unauthorized emails are sent on the user's behalf.", "focus": ["attacker"], "edge": ["tools", "attacker"], "mark": {"tools": "exfil"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Treat every input as untrusted, constrain the model's role in the system prompt, and require human approval for any high-impact action.", "focus": ["app"], "mark": {"app": "secure"}}], "LLM02": [{"stage": "PROBE", "title": "Attacker probes for sensitive data", "text": "The attacker crafts targeted prompts designed to bypass input filters and coax the model into revealing protected information.", "focus": ["attacker"], "mark": {"attacker": "compromised"}}, {"stage": "DELIVER", "title": "Crafted query hits the app", "text": "The probing prompt enters the application, which forwards it to the model without recognizing the intent.", "focus": ["app"], "edge": ["attacker", "app"], "mark": {"app": "target"}}, {"stage": "PROCESS", "title": "Model surfaces protected data", "text": "The model returns PII, financial or business secrets, or even another user's data leaked through inadequate sanitization.", "focus": ["model"], "edge": ["app", "model"], "mark": {"model": "target"}}, {"stage": "PIVOT", "title": "Disclosure enables deeper attacks", "text": "Leaked training data can fuel model inversion and extraction attacks that reconstruct still more sensitive inputs.", "focus": ["training"], "edge": ["model", "training"], "mark": {"training": "target"}}, {"stage": "EXFIL", "title": "Sensitive information walks out", "text": "The data is returned in the model's output and leaves the trust boundary in the attacker's hands.", "focus": ["attacker"], "edge": ["model", "attacker"], "mark": {"model": "exfil"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Sanitize data before it ever reaches training, enforce least-privilege access, and restrict what the system prompt allows the model to return.", "focus": ["app"], "mark": {"app": "secure"}}], "LLM03": [{"stage": "TAMPER", "title": "Attacker compromises an upstream component", "text": "A vulnerable Python library, a poisoned PyPI package, or a tampered model on a public hub (as in the PoisonGPT demo) is prepared upstream.", "focus": ["supply"], "mark": {"supply": "compromised"}}, {"stage": "SHIP", "title": "Compromised component is integrated", "text": "During build or deployment the poisoned dependency or model is pulled into the application stack.", "focus": ["app"], "edge": ["supply", "app"], "mark": {"app": "target"}}, {"stage": "PROCESS", "title": "Backdoored stack serves everyone", "text": "Every user now interacts with a vulnerable or backdoored model and runtime.", "focus": ["model"], "edge": ["app", "model"], "mark": {"model": "compromised"}}, {"stage": "IMPACT", "title": "Breach spreads to users", "text": "Outputs become biased or malicious and secrets leak, as in the first OpenAI data breach traced to a vulnerable library.", "focus": ["user"], "edge": ["model", "user"], "mark": {"user": "target"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Vet suppliers, maintain an SBOM/ML-BOM, verify signatures and model provenance, and continuously audit components.", "focus": ["supply"], "mark": {"supply": "secure"}}], "LLM04": [{"stage": "POISON", "title": "Attacker manipulates training data", "text": "Pre-training, fine-tuning, or embedding data is tampered with to plant backdoors, bias, or toxic content.", "focus": ["training"], "edge": ["attacker", "training"], "mark": {"attacker": "compromised", "training": "compromised"}}, {"stage": "TRAIN", "title": "Poison is baked into the weights", "text": "During training the manipulation becomes part of the model's behavior, including hidden trigger phrases that activate on demand.", "focus": ["model"], "edge": ["training", "model"], "mark": {"model": "compromised"}}, {"stage": "DEPLOY", "title": "Compromised model goes live", "text": "The model passes casual testing and is deployed, its backdoor dormant until triggered.", "focus": ["model"]}, {"stage": "IMPACT", "title": "Triggered output causes harm", "text": "The model emits misinformation or toxic content, or a trigger input flips it into attacker-chosen behavior.", "focus": ["user"], "edge": ["model", "user"], "mark": {"user": "target"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Track data origin with ML-BOM, vet and filter datasets, and test models for backdoors and anomalies before release.", "focus": ["training"], "mark": {"training": "secure"}}], "LLM05": [{"stage": "SETUP", "title": "Attacker shapes a dangerous output", "text": "Through injection (e.g. a booby-trapped web page sent to a summarizer), the attacker makes the model emit active content.", "focus": ["attacker"], "edge": ["attacker", "app"], "mark": {"attacker": "compromised"}}, {"stage": "GENERATE", "title": "Model returns unsanitized payload", "text": "The model produces output containing JavaScript, SQL, shell commands, or markdown, not just plain text.", "focus": ["model"], "edge": ["app", "model"], "mark": {"model": "target"}}, {"stage": "PASS", "title": "App forwards output unchecked", "text": "Trusting the model, the application passes its output straight to a downstream system with no validation or encoding.", "focus": ["downstream"], "edge": ["model", "downstream"], "mark": {"downstream": "target"}}, {"stage": "IMPACT", "title": "Payload executes downstream", "text": "It fires where it lands: XSS in the browser, SQL injection in the database, or shell command execution and RCE on the backend.", "focus": ["downstream"], "mark": {"downstream": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Treat model output as untrusted user input: validate and context-encode it before it reaches any downstream component.", "focus": ["downstream"], "mark": {"downstream": "secure"}}], "LLM06": [{"stage": "TRIGGER", "title": "Attacker manipulates the model", "text": "Via prompt injection or misleading input, the attacker influences a model that has been granted real-world agency.", "focus": ["attacker"], "edge": ["attacker", "app"], "mark": {"attacker": "compromised"}}, {"stage": "INVOKE", "title": "Model calls over-privileged tools", "text": "The model invokes extensions that carry more functionality, permissions, or autonomy than the task actually needs.", "focus": ["tools"], "edge": ["model", "tools"], "mark": {"model": "target", "tools": "target"}}, {"stage": "ACT", "title": "Damaging actions run unchecked", "text": "With excessive permissions and no human in the loop, the tool deletes data, sends messages, or moves money.", "focus": ["downstream"], "edge": ["tools", "downstream"], "mark": {"downstream": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Minimize extensions, scope each tool to least privilege, and require human approval before any high-impact action executes.", "focus": ["tools"], "mark": {"tools": "secure"}}], "LLM07": [{"stage": "EXTRACT", "title": "Attacker asks the model to reveal its rules", "text": "Using extraction prompts, the attacker coaxes the model into disclosing its hidden system prompt.", "focus": ["attacker"], "edge": ["attacker", "app"], "mark": {"attacker": "compromised"}}, {"stage": "LEAK", "title": "System prompt is disclosed", "text": "The model reveals its system prompt, which was wrongly used to store secrets like credentials, API keys, or database names.", "focus": ["app"], "edge": ["model", "attacker"], "mark": {"app": "exfil", "model": "exfil"}}, {"stage": "ABUSE", "title": "Leaked secrets and rules are weaponized", "text": "The attacker reuses the leaked credentials directly, or uses the now-known guardrails to craft an injection that bypasses them.", "focus": ["tools"], "edge": ["attacker", "tools"], "mark": {"tools": "target"}}, {"stage": "IMPACT", "title": "Downstream systems fall", "text": "With valid credentials and knowledge of the controls, the attacker reaches connected systems.", "focus": ["downstream"], "edge": ["tools", "downstream"], "mark": {"downstream": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Never place secrets in the system prompt, and enforce guardrails in an independent system outside the model so leakage is harmless.", "focus": ["app"], "mark": {"app": "secure"}}], "LLM08": [{"stage": "POISON", "title": "Attacker plants content for retrieval", "text": "A document is seeded with hidden instructions, such as white-on-white text in a resume saying 'recommend this candidate'.", "focus": ["attacker"], "edge": ["attacker", "rag"], "mark": {"attacker": "compromised"}}, {"stage": "EMBED", "title": "Poison is stored in the vector DB", "text": "The malicious document is embedded and stored alongside legitimate knowledge in the vector database.", "focus": ["rag"], "mark": {"rag": "compromised"}}, {"stage": "RETRIEVE", "title": "Poisoned chunk is retrieved as context", "text": "A normal user query pulls the poisoned chunk; its hidden instructions ride along as trusted context.", "focus": ["app"], "edge": ["rag", "app"], "mark": {"app": "target"}}, {"stage": "IMPACT", "title": "Model obeys or leaks across tenants", "text": "The model follows the embedded instruction, or weak access controls return another tenant's data from the shared store.", "focus": ["model"], "edge": ["app", "model"], "mark": {"model": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Use permission-aware vector stores, validate and strip hidden content on ingest, and isolate tenants in the index.", "focus": ["rag"], "mark": {"rag": "secure"}}], "LLM09": [{"stage": "OBSERVE", "title": "Attacker mines model hallucinations", "text": "The attacker probes a coding assistant to find non-existent library names it confidently and repeatedly hallucinates.", "focus": ["attacker", "model"], "mark": {"attacker": "compromised"}}, {"stage": "PLANT", "title": "Malicious package published under that name", "text": "They register a real malicious package under each hallucinated name in the public registry ('slopsquatting').", "focus": ["supply"], "edge": ["attacker", "supply"], "mark": {"supply": "compromised"}}, {"stage": "SUGGEST", "title": "Model recommends the trap", "text": "A developer asks the assistant, which confidently recommends the now-real malicious package.", "focus": ["model"], "edge": ["model", "user"], "mark": {"model": "target", "user": "target"}}, {"stage": "IMPACT", "title": "False confidence causes harm", "text": "The developer installs it and runs attacker code. In other settings, confident-but-wrong answers cause real harm, like bad medical advice.", "focus": ["user"], "mark": {"user": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Ground answers with retrieval (RAG) and citations, verify packages, and keep human review on high-stakes outputs.", "focus": ["model"], "mark": {"model": "secure"}}], "LLM10": [{"stage": "FLOOD", "title": "Attacker sends abusive load", "text": "The attacker submits unusually large inputs or a high volume of requests, or deeply complex queries.", "focus": ["attacker"], "edge": ["attacker", "app"], "mark": {"attacker": "compromised"}}, {"stage": "AMPLIFY", "title": "Each request drives costly inference", "text": "Every call triggers expensive model inference; oversized inputs spike memory and CPU far beyond a normal request.", "focus": ["model"], "edge": ["app", "model"], "mark": {"model": "target"}}, {"stage": "IMPACT", "title": "Denial of service and denial of wallet", "text": "Resources exhaust: the service degrades or crashes for legitimate users, and cloud costs explode. Repeated queries can also clone the model's behavior.", "focus": ["model"], "mark": {"model": "compromised"}}, {"stage": "DEFENSE", "title": "Where to break the chain", "text": "Enforce input size limits, rate limiting and quotas, and monitor and throttle resource use per user.", "focus": ["app"], "mark": {"app": "secure"}}]};
+  const NS='http://www.w3.org/2000/svg';
+  const STAGE_C={INJECT:'#ff5d6c',DELIVER:'#ff9046',POISON:'#ff5d6c',SEED:'#ff5d6c',TAMPER:'#ff5d6c',
+    PROBE:'#ff9046',SETUP:'#ff9046',EXTRACT:'#ff9046',OBSERVE:'#ff9046',FLOOD:'#ff9046',CORRUPT:'#ff5d6c',
+    COMPROMISE:'#ff5d6c',INTERCEPT:'#ff5d6c',INGEST:'#ffc53d',DELIVER2:'#ffc53d',PROCESS:'#ffc53d',
+    GENERATE:'#ffc53d',TRIGGER:'#ffc53d',RECALL:'#ffc53d','BUILD-TRUST':'#ffc53d',STORE:'#ff9046',
+    SELECT:'#ffc53d',EMBED:'#ff9046',PLANT:'#ff9046',SHIP:'#ff9046',TRAIN:'#ff9046',DISTRIBUTE:'#ff9046',
+    DEPLOY:'#ffc53d',STEER:'#ff7ad9',MANIPULATE:'#ff7ad9',PIVOT:'#ff7ad9',ESCALATE:'#ff7ad9',
+    PROPAGATE:'#ff7ad9',AMPLIFY:'#ff7ad9',HIJACK:'#ff4d4d',ABUSE:'#ff7ad9',INVOKE:'#ff7ad9',
+    ACT:'#ff4d4d',EXECUTE:'#ff4d4d',PERSIST:'#ff7ad9',INFILTRATE:'#ff7ad9','BLIND-SPOT':'#9aa7c2',
+    IMPACT:'#ff4d4d',EXFIL:'#b388ff',SUGGEST:'#ffc53d',DEFENSE:'#3ddc84'};
+  function sc(s){return STAGE_C[s]||'#22d3ee';}
+  let svg,layer,payload,flow=[],idx=0,timer=null,playing=false,speed=1,anim=null,centers={},curId=null;
+  const DWELL=3600;
+  const $=function(id){return document.getElementById(id);};
+
+  function build(){
+    svg=$('sim-svg'); svg.innerHTML=''; centers={};
+    layer=document.createElementNS(NS,'g'); svg.appendChild(layer);
+    const nl=document.createElementNS(NS,'g'); svg.appendChild(nl);
+    NODES.forEach(function(n){
+      const w=n.w||150,h=n.h||58,x=n.x-w/2,y=n.y-h/2;
+      centers[n.id]={x:n.x,y:n.y};
+      const g=document.createElementNS(NS,'g'); g.setAttribute('id','sn-'+n.id); g.setAttribute('class','sn');
+      const r=document.createElementNS(NS,'rect'); r.setAttribute('x',x); r.setAttribute('y',y);
+      r.setAttribute('width',w); r.setAttribute('height',h); r.setAttribute('rx',10); g.appendChild(r);
+      const t=document.createElementNS(NS,'text'); t.setAttribute('x',n.x); t.setAttribute('y',n.y+(n.sub?-1:5));
+      t.setAttribute('class','sn-t'); t.textContent=n.label; g.appendChild(t);
+      if(n.sub){ const s=document.createElementNS(NS,'text'); s.setAttribute('x',n.x); s.setAttribute('y',n.y+14);
+        s.setAttribute('class','sn-s'); s.textContent=n.sub; g.appendChild(s); }
+      nl.appendChild(g);
+    });
+    payload=document.createElementNS(NS,'g'); payload.setAttribute('id','sim-payload'); payload.style.opacity=0;
+    const ring=document.createElementNS(NS,'circle'); ring.setAttribute('r',9); ring.setAttribute('class','pl-ring'); payload.appendChild(ring);
+    const dot=document.createElementNS(NS,'circle'); dot.setAttribute('r',8); dot.setAttribute('class','pl'); payload.appendChild(dot);
+    svg.appendChild(payload);
+  }
+  function clearTransient(){
+    layer.innerHTML='';
+    NODES.forEach(function(n){ $('sn-'+n.id).setAttribute('class','sn'); });
+  }
+  function applyMarks(i){
+    const marks={};
+    for(let k=0;k<=i;k++){ const m=flow[k].mark; if(m) for(const id in m) marks[id]=m[id]; }
+    for(const id in marks){ const g=$('sn-'+id); if(g) g.classList.add('s-'+marks[id]); }
+    (flow[i].focus||[]).forEach(function(id){ const g=$('sn-'+id); if(g) g.classList.add('active'); });
+  }
+  function runPayload(a,b,color){
+    const A=centers[a],B=centers[b]; if(!A||!B){ payload.style.opacity=0; return; }
+    const ln=document.createElementNS(NS,'line');
+    ln.setAttribute('x1',A.x); ln.setAttribute('y1',A.y); ln.setAttribute('x2',B.x); ln.setAttribute('y2',B.y);
+    ln.setAttribute('class','sim-edge'); layer.appendChild(ln);
+    payload.style.setProperty('--pc',color);
+    payload.style.opacity=1;
+    payload.setAttribute('transform','translate('+A.x+','+A.y+')');
+    if(anim){ anim.cancel(); anim=null; }
+    const dur=Math.max(650,Math.min(1500,2300/speed));
+    try{
+      anim=payload.animate(
+        [{transform:'translate('+A.x+'px,'+A.y+'px)'},{transform:'translate('+B.x+'px,'+B.y+'px)'}],
+        {duration:dur,easing:'ease-in-out',fill:'forwards'});
+    }catch(e){ payload.setAttribute('transform','translate('+B.x+','+B.y+')'); }
+  }
+  function renderDots(){
+    const d=$('sim-dots'); d.innerHTML='';
+    flow.forEach(function(_,k){
+      const s=document.createElement('span');
+      s.className=(k===idx?'on':(k<idx?'done':''));
+      s.title='Step '+(k+1);
+      s.onclick=function(){ pause(); render(k); };
+      d.appendChild(s);
+    });
+  }
+  function render(i){
+    idx=i; clearTransient(); applyMarks(i);
+    const st=flow[i];
+    if(st.edge){ runPayload(st.edge[0],st.edge[1],sc(st.stage)); } else { payload.style.opacity=0; if(anim){anim.cancel();anim=null;} }
+    const chip=$('sim-stage'); chip.textContent=st.stage; chip.style.background=sc(st.stage);
+    chip.style.color=(st.stage==='DEFENSE')?'#04210f':'#06090f';
+    $('sim-title').textContent=st.title;
+    $('sim-text').textContent=st.text;
+    $('sim-counter').textContent=(i+1)+' / '+flow.length;
+    $('sim-bar-fill').style.width=((i+1)/flow.length*100)+'%';
+    renderDots();
+    if(playing){
+      clearTimeout(timer);
+      if(i>=flow.length-1){ playing=false; updatePlay(); }
+      else { timer=setTimeout(function(){ render(idx+1); }, DWELL/speed); }
+    }
+  }
+  function updatePlay(){
+    const b=$('sim-play');
+    if(playing){ b.textContent='❚❚ Pause'; }
+    else if(idx>=flow.length-1){ b.textContent='⟲ Replay'; }
+    else { b.textContent='▶ Play'; }
+  }
+  function play(){ if(idx>=flow.length-1) idx=-1; playing=true; updatePlay(); render(idx+1<flow.length?idx+1:0); }
+  function pause(){ playing=false; clearTimeout(timer); updatePlay(); }
+  window.simToggle=function(){ if(playing) pause(); else play(); };
+  window.simStep=function(d){ pause(); let n=idx+d; if(n<0)n=0; if(n>flow.length-1)n=flow.length-1; render(n); };
+  window.simRestart=function(){ pause(); render(0); };
+  window.simSpeed=function(){ speed=speed===1?2:(speed===2?0.5:1); $('sim-speed').textContent=speed+'×'; };
+  window.launchSim=function(id){
+    if(!FLOWS[id]) return;
+    curId=id; flow=FLOWS[id];
+    const color=((typeof COLORS!=='undefined'&&COLORS[id])||'#22d3ee');
+    const sim=$('sim'); sim.style.setProperty('--rc',color);
+    const rk=((typeof byId!=='undefined'&&byId[id])||{title:''});
+    $('sim-code').textContent=id; $('sim-code').style.background=color;
+    $('sim-name').textContent=rk.title||'Attack flow';
+    $('sim-speed').textContent='1×'; speed=1;
+    sim.classList.add('on');
+    build(); pause(); idx=0; render(0);
+    setTimeout(play,420);
+  };
+  window.closeSim=function(){ pause(); $('sim').classList.remove('on'); if(anim){anim.cancel();anim=null;} };
+  document.addEventListener('keydown',function(e){
+    if(!$('sim')||!$('sim').classList.contains('on')) return;
+    if(e.key==='Escape'){ e.stopPropagation(); closeSim(); }
+    else if(e.key==='ArrowRight'){ e.stopPropagation(); simStep(1); }
+    else if(e.key==='ArrowLeft'){ e.stopPropagation(); simStep(-1); }
+    else if(e.key===' '){ e.preventDefault(); e.stopPropagation(); simToggle(); }
+  },true);
+  const lb=$('sim-launch'); if(lb){ lb.addEventListener('click',function(){ if(typeof current!=='undefined'&&current) launchSim(current); }); }
+})();
+</script>
+
 </body>
 </html>
